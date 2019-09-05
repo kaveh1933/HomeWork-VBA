@@ -1,0 +1,47 @@
+
+
+Sub EasyActivity()
+    
+    For Each ws In Worksheets
+        ws.Range("I1").Value = "Ticker"
+        ws.Range("J1").Value = "Total Stock Volume"
+
+        Dim yearLastRow As Long
+        Dim i As Long
+        Dim tickerLocation As Integer
+        Dim volume As Double
+        tickerLocation = 2
+        volume = 0
+        
+        yearLastRow = ws.Cells(Rows.Count, "A").End(xlUp).Row
+        
+        For i = 2 To yearLastRow
+
+            If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+                ws.Range("I" & tickerLocation).Value = ws.Range("A" & i).Value
+
+            ' Last row + the volume total
+                volume = volume + ws.Range("G" & i).Value
+            
+            ' volume in column J so to coincide with ticker symbol
+                ws.Range("J" & tickerLocation).Value = volume
+            
+            ' Add to ticker  & volume location
+                tickerLocation = tickerLocation + 1
+
+            ' Reset volume
+                volume = 0
+            Else
+                volume = volume + ws.Range("G" & i).Value
+               
+
+            End If
+        
+        Next i
+
+  
+    Next ws
+
+
+End Sub
+
